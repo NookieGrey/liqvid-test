@@ -1,12 +1,34 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+
 import App from './App';
-import * as serviceWorker from './serviceWorker';
 
-ReactDOM.render(<App />, document.getElementById('root'));
+import * as faceapi from 'face-api.js';
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+import low from "lowdb";
+import FileSync from "lowdb/adapters/FileSync";
+
+import './index.css';
+
+const MODEL_URL = '/models';
+
+const db = low(new FileSync('db.json'));
+
+faceapi.env.monkeyPatch({
+  Canvas: HTMLCanvasElement,
+  Image: HTMLImageElement,
+  ImageData: ImageData,
+  Video: HTMLVideoElement,
+  createCanvasElement: () => document.createElement('canvas'),
+  createImageElement: () => document.createElement('img')
+});
+
+async function loadModels () {
+  await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
+  await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
+  await faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL);
+}
+
+loadModels().then(() => {
+  ReactDOM.render(<App db={db}/>, document.getElementById('root'));
+});

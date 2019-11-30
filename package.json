@@ -2,16 +2,29 @@
   "name": "liqvid-test",
   "version": "0.1.0",
   "private": true,
+  "main": "main.js",
   "dependencies": {
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
-    "react-scripts": "3.2.0"
+    "@craco/craco": "5.6.2",
+    "@tensorflow/tfjs-core": "1.2.9",
+    "@tensorflow/tfjs-node": "1.2.9",
+    "concurrently": "5.0.0",
+    "electron": "7.1.2",
+    "electron-is-dev": "1.1.0",
+    "face-api.js": "0.21.0",
+    "lowdb": "1.0.0",
+    "react": "16.12.0",
+    "react-dom": "16.12.0",
+    "react-scripts": "3.2.0",
+    "react-webcam": "4.0.0",
+    "uuid": "3.3.3",
+    "wait-on": "3.3.0"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "start": "cross-env BROWSER=none craco start",
+    "build": "craco build",
+    "test": "craco test",
+    "eject": "craco eject",
+    "electron-dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\""
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,5 +40,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "cross-env": "6.0.3"
   }
 }
