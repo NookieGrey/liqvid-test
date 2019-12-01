@@ -21,10 +21,10 @@ function createWindow() {
   // win.loadFile('index.html')
   win.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
 
-  if (isDev) {
+  // if (isDev) {
     // Отображаем средства разработчика.
     win.webContents.openDevTools()
-  }
+  // }
 
   // Будет вызвано, когда окно будет закрыто.
   win.on('closed', () => {

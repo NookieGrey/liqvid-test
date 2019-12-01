@@ -10,7 +10,7 @@ import FileSync from "lowdb/adapters/FileSync";
 
 import './index.css';
 
-const MODEL_URL = '/models';
+const MODEL_URL = require("path").join(__dirname, '/models');
 
 const db = low(new FileSync('db.json'));
 

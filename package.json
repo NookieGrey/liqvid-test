@@ -2,13 +2,15 @@
   "name": "liqvid-test",
   "version": "0.1.0",
   "private": true,
-  "main": "main.js",
+  "author": "NookieGrey",
+  "description": "saving photos from webcam to DB with age and gender",
+  "main": "public/electron.js",
+  "homepage": "./",
   "dependencies": {
     "@craco/craco": "5.6.2",
     "@tensorflow/tfjs-core": "1.2.9",
     "@tensorflow/tfjs-node": "1.2.9",
     "concurrently": "5.0.0",
-    "electron": "7.1.2",
     "electron-is-dev": "1.1.0",
     "face-api.js": "0.21.0",
     "lowdb": "1.0.0",
@@ -24,7 +26,14 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "craco eject",
-    "electron-dev": "concurrently \"yarn start\" \"wait-on http://localhost:3000 && electron .\""
+    "electron-dev": "concurrently \"npm start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-pack": "electron-builder -c.extraMetadata.main=build/electron.js",
+    "dist": "npm run build && npm run electron-pack"
+  },
+  "build": {
+    "directories": {
+      "buildResources": "build"
+    }
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -42,6 +51,8 @@
     ]
   },
   "devDependencies": {
-    "cross-env": "6.0.3"
+    "electron": "7.1.2",
+    "cross-env": "6.0.3",
+    "electron-builder": "21.2.0"
   }
 }
