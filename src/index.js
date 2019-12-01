@@ -10,9 +10,18 @@ import FileSync from "lowdb/adapters/FileSync";
 
 import './index.css';
 
-const MODEL_URL = require("path").join(__dirname, '/models');
+const path = require("path");
 
-const db = low(new FileSync('db.json'));
+let MODEL_URL = "/models";
+let DB_PATH = "db.json";
+
+if (process.env.NODE_ENV === "production") {
+  MODEL_URL = path.join(process.resourcesPath, "app.asar", 'build/models');
+}
+
+const db = low(new FileSync(DB_PATH));
+
+db.defaults({images: []}).write();
 
 faceapi.env.monkeyPatch({
   Canvas: HTMLCanvasElement,
@@ -23,7 +32,7 @@ faceapi.env.monkeyPatch({
   createImageElement: () => document.createElement('img')
 });
 
-async function loadModels () {
+async function loadModels() {
   await faceapi.nets.ssdMobilenetv1.loadFromUri(MODEL_URL);
   await faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL);
   await faceapi.nets.ageGenderNet.loadFromUri(MODEL_URL);
